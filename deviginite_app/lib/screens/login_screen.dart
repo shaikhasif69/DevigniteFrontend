@@ -7,6 +7,8 @@ import 'package:deviginite_app/utils/button.dart';
 import 'package:deviginite_app/utils/text_field.dart';
 import 'package:get/get.dart';
 
+import 'register_screen.dart';
+
 class LoginPage extends StatefulWidget {
   LoginPage({super.key});
 
@@ -160,22 +162,22 @@ class _LoginPageState extends State<LoginPage> {
                                   "Not a member?",
                                   style: TextStyle(fontSize: 18),
                                 ),
-                                // TextButton(
-                                //   onPressed: () {
-                                //     Navigator.pushReplacement(
-                                //       context,
-                                //       MaterialPageRoute(
-                                //         builder: (BuildContext context) =>
-                                //             RegisterPage(),
-                                //       ),
-                                //     );
-                                //   },
-                                //   child: const Text(
-                                //     "Register now",
-                                //     style: TextStyle(
-                                //         color: Colors.blue, fontSize: 18),
-                                //   ),
-                                // )
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            RegisterPage(),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text(
+                                    "Register now",
+                                    style: TextStyle(
+                                        color: Colors.blue, fontSize: 18),
+                                  ),
+                                )
                               ],
                             ),
                             const SizedBox(

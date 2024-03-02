@@ -19,10 +19,12 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final phoneController = TextEditingController();
 
-  final emailController = TextEditingController();
+  final ageController = TextEditingController();
+  final relationController = TextEditingController();
 
   final passwordController = TextEditingController();
   final nameController = TextEditingController();
+  final emailController = TextEditingController();
 
   // void registerUser() async {
 
@@ -31,26 +33,17 @@ class _RegisterPageState extends State<RegisterPage> {
 
   // List of items in our dropdown menu
   var items = [
-    'A+',
-    'A-',
-    'B+',
-    'B-',
-    'AB+',
-    'AB-',
-    'AB-',
-    'O+',
-    'O-',
+    'Blind',
+    'Deaf',
+    'Handicapped',
+    'Others',
   ];
 
   var values = [
-    "aPositive",
-    "bPositive",
-    "bNegative",
-    "aNegative",
-    "abPositive",
-    "abNegative",
-    "oPositive",
-    "oNegative",
+    "blind",
+    "deaf",
+    "handicapped",
+    "others",
   ];
 
   @override
@@ -66,7 +59,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   width: 500,
                   height: 200,
                   decoration: const BoxDecoration(
-                    color: AppConstants.themeColor,
+                    color: AppConstants.extraColor,
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(30),
                       bottomRight: Radius.circular(30),
@@ -84,7 +77,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         height: 10,
                       ),
                       const Text(
-                        "Aarogya Rakt",
+                        "InclusiLearn",
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 35,
@@ -98,7 +91,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 90,
+                  height: 60,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -122,9 +115,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               height: 10,
                             ),
                             const Text(
-                              "Register Now",
+                              "User Details",
                               style: TextStyle(
-                                fontSize: 28,
+                                fontSize: 24,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -140,28 +133,28 @@ class _RegisterPageState extends State<RegisterPage> {
                               height: 10,
                             ),
                             myTextField(
-                              controller: emailController,
-                              hintText: "Email",
+                              controller: ageController,
+                              hintText: "Age",
                               obscureText: false,
                             ),
+                            // const SizedBox(
+                            //   height: 10,
+                            // ),
+                            // myTextField(
+                            //   controller: phoneController,
+                            //   hintText: "Phone",
+                            //   obscureText: false,
+                            // ),
                             const SizedBox(
                               height: 10,
                             ),
-                            myTextField(
-                              controller: phoneController,
-                              hintText: "Phone",
-                              obscureText: false,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            myTextField(
-                                controller: passwordController,
-                                hintText: "Password",
-                                obscureText: true),
-                            const SizedBox(
-                              height: 10,
-                            ),
+                            // myTextField(
+                            //     controller: passwordController,
+                            //     hintText: "Password",
+                            //     obscureText: true),
+                            // const SizedBox(
+                            //   height: 10,
+                            // ),
                             DropdownButtonHideUnderline(
                               child: DropdownButton2<String>(
                                 isExpanded: true,
@@ -177,7 +170,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                     ),
                                     Expanded(
                                       child: Text(
-                                        'Select your blood group',
+                                        'Disability Type',
                                         style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,
@@ -253,7 +246,44 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                               ),
                             ),
-
+                            //Gaurdian Deatils?
+                            const SizedBox(
+                              height: 25,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            const Text(
+                              "Gaurdian Details",
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            myTextField(
+                              controller: nameController,
+                              hintText: "Name",
+                              obscureText: false,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            myTextField(
+                              controller: relationController,
+                              hintText: "Relation",
+                              obscureText: false,
+                            ),
+const SizedBox(
+                              height: 10,
+                            ),
+                            myTextField(controller: phoneController, hintText: "number", obscureText: false),
+const SizedBox(
+                              height: 10,
+                            ),
+                            myTextField(controller:emailController , hintText: "email", obscureText: false),
                             //forgot password?
                             const SizedBox(
                               height: 25,
@@ -265,7 +295,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             //     bool isLoggedIn =
                             //         await Authentication.registerUser(
                             //       nameController.text,
-                            //       emailController.text,
+                            //       ageController.text,
                             //       phoneController.text,
                             //       passwordController.text,
                             //       selectedValue,
