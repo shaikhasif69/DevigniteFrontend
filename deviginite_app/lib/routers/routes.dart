@@ -1,5 +1,10 @@
+import 'package:deviginite_app/Fragments.dart/learningPage.dart';
+import 'package:deviginite_app/Fragments.dart/joy.dart';
 import 'package:deviginite_app/routers/NamedRoutes.dart';
 import 'package:deviginite_app/tabs/dashboard_nav.dart';
+import 'package:deviginite_app/screens/Authentication/login_screen.dart';
+import 'package:deviginite_app/screens/Authentication/register_screen.dart';
+import 'package:deviginite_app/screens/Authentication/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -21,6 +26,16 @@ class MyGoRouter {
     // ),
     GoRoute(
       path: "/",
+      name: CommonRoutes.root,
+      pageBuilder: (context, state) {
+        return MaterialPage(
+            child: BlindHomePage(
+          key: state.pageKey,
+        ));
+      },
+    ),
+    GoRoute(
+      path: "/root/login",
       name: CommonRoutes.login,
       pageBuilder: (context, state) {
         return MaterialPage(
