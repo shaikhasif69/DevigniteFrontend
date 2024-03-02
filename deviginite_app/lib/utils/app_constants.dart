@@ -17,12 +17,16 @@ class AppConstants {
       Color.fromARGB(255, 201, 126, 126); // Replace 0xFF with the opacity value
   static const Color tAccentColor = Color(0xFFF15A59);
   static const Color extraColor = Color(0xFFB5C0D0);
-  static const Color extraColor2 = Color(0xFFFFF7F1);
+  static const Color appSecondaryBack = Color(0xFFFFF7F1);
   static const Color myColor = Color(0xFFFFF2F2);
   static const Color greenColor = Color(0xFFDCFFB7);
   static const Color blueColor = Color(0xFF40DFEF);
   static const Color something = Color(0xFFFF6363);
   static const Color darkBlue = Color(0xFF1D2B53);
+
+  static const Color blueGreenBack = Color(0xFFA1CBCF);
+  static const Color registerBackWid = Color(0x140F3C4B);
+  static const Color appPrimary = Color(0xFF19647E);
 
   /// Shared Key
   static const String theme = '6ammart_theme';

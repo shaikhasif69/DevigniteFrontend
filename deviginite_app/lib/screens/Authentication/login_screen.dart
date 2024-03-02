@@ -1,3 +1,4 @@
+import 'package:deviginite_app/routers/NamedRoutes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 // import 'package:deviginite_app/screens/register_screen.dart';
@@ -6,7 +7,9 @@ import 'package:deviginite_app/utils/app_constants.dart';
 import 'package:deviginite_app/utils/button.dart';
 import 'package:deviginite_app/utils/text_field.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../services/Authentication.dart';
 import 'register_screen.dart';
 
 class LoginPage extends StatefulWidget {
@@ -29,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          backgroundColor: Colors.grey.shade100,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           body: SingleChildScrollView(
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.center,
@@ -38,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
                   width: 500,
                   height: 200,
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
+                    color: Theme.of(context).colorScheme.primary,
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(30),
                       bottomRight: Radius.circular(30),
@@ -48,13 +51,13 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
-                        "assets/images/logo.png",
-                        width: 90,
-                        height: 90,
+                        "assets/images/ghanoliAppLogo.png",
+                        width: 140,
+                        height: 110,
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      // const SizedBox(
+                      //   height: 10,
+                      // ),
                       const Text(
                         "We WIN",
                         style: TextStyle(
@@ -82,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                           boxShadow: [
                             BoxShadow(
                               blurRadius: 1,
-                              color: Colors.grey.shade200,
+                              color: Theme.of(context).colorScheme.surface,
                             )
                           ],
                           borderRadius: BorderRadius.circular(20),
@@ -135,25 +138,22 @@ class _LoginPageState extends State<LoginPage> {
                               height: 25,
                             ),
 
-                            // MyButton(
-                            //   text: "Sign In",
-                            //   onTap: () async {
-                            //     bool isLoggedIn =
-                            //         await Authentication.loginUser(
-                            //             emailController.text,
-                            //             passwordController.text);
+                            MyButton(
+                              text: "Sign In",
+                              onTap: () async {
+                                bool isLoggedIn =
+                                    await Authentication.loginUser(
+                                        emailController.text,
+                                        passwordController.text);
+                                print(isLoggedIn);
+                                print("avove is the logged ");
 
-                            //     if (isLoggedIn) {
-                            //       Get.toNamed("/userDashboard");
-                            //     }
-                            //   },
-                            // ),
-                            // MyButton(
-                            //   text: "Sign In",
-                            //   onTap: () async {
-                            //    Get.toNamed('/searchLocation');
-                            //   },
-                            // ),
+                                if (isLoggedIn) {
+                                  GoRouter.of(context).pushReplacementNamed(
+                                      StudentsRoutes.blindHomepage);
+                                }
+                              },
+                            ),
 
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -164,13 +164,8 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            RegisterPage(),
-                                      ),
-                                    );
+                                    GoRouter.of(context)
+                                        .pushNamed(CommonRoutes.signUp);
                                   },
                                   child: const Text(
                                     "Register now",

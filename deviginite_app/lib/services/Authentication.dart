@@ -8,8 +8,8 @@ import 'package:http/http.dart' as http;
 import 'dart:developer';
 
 class Authentication {
-  static Future<bool> registerUser(
-      name, email, phone, password, bloodGrp) async {
+  static Future<bool> registerUser(name, age, gauradianName, relation, email,
+      phone, password, disablityType) async {
     print("Called");
     Map<String, String>? location = await getLocation();
     log(name: "this is the location: ", location.toString());
@@ -17,17 +17,18 @@ class Authentication {
       log(name: "something", location.toString());
       var response = await http.post(
         Uri.parse(
-          "${AppConstants.IP}/registerUser",
+          "https://devignite.vercel.app/api/user",
         ),
         body: jsonEncode(
           {
-            "userName": name,
-            "userEmail": email,
-            "userPhone": "+91" + phone,
-            "userPassword": password,
-            "latitude": location['latitude'],
-            "longitude": location['longitude'],
-            "bloodGroup": bloodGrp,
+            "name": name,
+            "age": age,
+            "email": email,
+            "password": password,
+            "guardian_name": gauradianName,
+            "guardian_relation": relation,
+            "guardian_number": "+91" + phone,
+            "disability_type": disablityType,
           },
         ),
         headers: {"Content-Type": "application/json"},
@@ -40,10 +41,8 @@ class Authentication {
       print("mess" + mess);
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('userEmail', email);
-      await prefs.setString('userPhone', phone);
+      await prefs.setString('guardian_number', phone);
       await prefs.setString('userPassword', password);
-      await prefs.setString('userLat', location['latitude']!);
-      await prefs.setString('userLat', location['longitude']!);
       await prefs.setBool("isLoggedIn", true);
 
       if (mess == "ok") {
@@ -101,32 +100,36 @@ class Authentication {
 
   static Future<bool> loginUser(email, password) async {
     print("Called");
+    print("email: " + email + "password :" + password);
 
     var response = await http.post(
       Uri.parse(
-        "${AppConstants.IP}/loginUser",
+        "https://devignite.vercel.app/api/auth",
       ),
       body: jsonEncode(
-        {"userEmail": email, "userPassword": password},
+        {"email": email, "password": password},
       ),
       headers: {"Content-Type": "application/json"},
     );
 
     var data = await response.body;
+    print("what is this data: " + data);
     final result = jsonDecode(data);
-    print(result);
-    var mess = result["user"];
-
-    if (mess != "fail") {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('userId', mess["_id"]);
-      await prefs.setString('userEmail', mess["userEmail"]);
-      await prefs.setString('userPhone', mess["userPhone"]);
-      await prefs.setString('userPassword', mess["userPassword"]);
-      await prefs.setBool("isLoggedIn", true);
+    print("result : " + result.toString());
+    var mess = result["success"];
+     print("this is the mess: " + mess.toString());
+    if (mess) {
+      // final SharedPreferences prefs = await SharedPreferences.getInstance();
+      print("i am working!");
+      // await prefs.setString('userId', mess["_id"]);
+      // await prefs.setString('userEmail', mess["email"]);
+      // await prefs.setString('userPhone', mess["userPhone"]);
+      // await prefs.setString('userPassword', mess["userPassword"]);
+      // await prefs.setBool("isLoggedIn", true);/
 
       return true;
     } else {
+      print("else working!");
       Fluttertoast.showToast(
         msg: "Invalid Email/Password",
         toastLength: Toast.LENGTH_SHORT,
@@ -141,7 +144,8 @@ class Authentication {
       print(result);
       var mess = result["user"];
 
-      if (mess != "fail") {
+      if (mess != false) {
+        print("this is the another if statement!");
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('userId', mess["_id"]);
         await prefs.setString('userEmail', mess["userEmail"]);
@@ -163,7 +167,6 @@ class Authentication {
         return false;
       }
 
-      // Rest of your code...
     }
   }
 }

@@ -29,14 +29,21 @@ class _SplashScreenState extends State<SplashScreen> {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
 
       bool? isLoggedIn = prefs.getBool("isLoggedIn");
+      print("this is the is logged ins:" );
+      print(isLoggedIn);
 
       if (isLoggedIn != null) {
         if (isLoggedIn) {
+          print("it is logged in!");
           GoRouter.of(context).pushReplacementNamed(CommonRoutes.login);
           ;
         }
+        else{
+          print("the else is working!");
+        }
       } else {
-        GoRouter.of(context).pushReplacementNamed(CommonRoutes.login);
+        print("hey there it's the else !");
+        GoRouter.of(context).pushReplacementNamed(CommonRoutes.signUp);
       }
     });
   }
@@ -44,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppConstants.tPrimaryColor,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         body: Container(
           margin: const EdgeInsets.only(top: 10),
           child: Center(
@@ -52,7 +59,7 @@ class _SplashScreenState extends State<SplashScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  "assets/images/logo.png",
+                  "assets/images/ghanoliAppLogo.png",
                   height: 300,
                 ),
                 const SizedBox(
