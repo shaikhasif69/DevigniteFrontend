@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:deviginite_app/screens/login_screen.dart';
+import 'package:deviginite_app/screens/Authentication/login_screen.dart';
 // import 'package:deviginite_app/services/Authentication.dart';
 import 'package:deviginite_app/utils/app_constants.dart';
 import 'package:deviginite_app/utils/button.dart';
