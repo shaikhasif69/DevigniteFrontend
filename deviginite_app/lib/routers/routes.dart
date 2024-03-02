@@ -1,7 +1,9 @@
+import 'package:deviginite_app/Fragments.dart/learningPage.dart';
+import 'package:deviginite_app/Fragments.dart/joy.dart';
 import 'package:deviginite_app/routers/NamedRoutes.dart';
-import 'package:deviginite_app/screens/login_screen.dart';
-import 'package:deviginite_app/screens/register_screen.dart';
-import 'package:deviginite_app/screens/splash_screen.dart';
+import 'package:deviginite_app/screens/Authentication/login_screen.dart';
+import 'package:deviginite_app/screens/Authentication/register_screen.dart';
+import 'package:deviginite_app/screens/Authentication/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -12,7 +14,7 @@ class MyGoRouter {
       name: CommonRoutes.root,
       pageBuilder: (context, state) {
         return MaterialPage(
-            child: SplashScreen(
+            child: BlindHomePage(
           key: state.pageKey,
         ));
       },
