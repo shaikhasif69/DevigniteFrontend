@@ -43,7 +43,6 @@ class _BlindHomePage extends ConsumerState<BlindHomePage> {
         child: Stack(
           children: [
             SubjectCards(),
-            Ball(_x, _y),
             Align(
               alignment: const Alignment(0, 0.8),
               child: Joystick(

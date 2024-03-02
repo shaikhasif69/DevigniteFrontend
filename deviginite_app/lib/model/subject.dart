@@ -30,3 +30,21 @@ List<Map<String, dynamic>> subjectList = [
     'description': 'hindi is good',
   },
 ];
+
+List<Map<String, dynamic>> homePageList = [
+  {
+    'name': 'Quiz',
+    'index': "1",
+    'description': 'Quiz',
+  },
+  {
+    'name': 'New Assignments',
+    'index': "2",
+    'description': 'Assignment',
+  },
+  {
+    'name': 'Recommended Course',
+    'index': "3",
+    'description': 'Recommened Course',
+  },
+];

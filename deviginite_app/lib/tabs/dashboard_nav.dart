@@ -1,3 +1,4 @@
+import 'package:deviginite_app/Fragments.dart/learningPage.dart';
 import 'package:deviginite_app/screens/students/b_home_screen.dart';
 import 'package:deviginite_app/screens/students/b_learning_screen.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
   int _currentIndex = 0;
   final tabs = [
     BHomeScreen(),
-    BLearningScreen(),
+    BlindHomePage(),
     // SearchPage(),
     ProfileScreen(),
   ];

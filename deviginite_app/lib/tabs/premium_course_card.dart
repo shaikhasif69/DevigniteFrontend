@@ -1,21 +1,29 @@
+import 'package:deviginite_app/provider/Student/HomePageProvider.dart';
 import 'package:deviginite_app/utils/app_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PremiumCourseCard extends StatefulWidget {
-  const PremiumCourseCard({super.key});
+class PremiumCourseCard extends ConsumerStatefulWidget {
+  PremiumCourseCard({super.key, required this.selected});
+  bool selected;
 
   @override
-  State<PremiumCourseCard> createState() => _PremiumCourseCardState();
+  ConsumerState<PremiumCourseCard> createState() => _PremiumCourseCardState();
 }
 
-class _PremiumCourseCardState extends State<PremiumCourseCard> {
+class _PremiumCourseCardState extends ConsumerState<PremiumCourseCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(12.0),
+      padding: const EdgeInsets.all(8.0),
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.45,
+        width: MediaQuery.of(context).size.width * 0.46,
         decoration: BoxDecoration(
+          border: widget.selected
+              ? Border.all(
+                  width: 4,
+                  color: Theme.of(context).colorScheme.primaryContainer)
+              : null,
           color: AppConstants.myColor,
           boxShadow: [
             BoxShadow(
@@ -44,7 +52,7 @@ class _PremiumCourseCardState extends State<PremiumCourseCard> {
                       ),
                       child: Image.asset(
                         "assets/images/ghanoliAppLogo.png",
-                        width: 100,
+                        width: 110,
                         height: 100,
                         fit: BoxFit.cover,
                       ),
@@ -52,7 +60,9 @@ class _PremiumCourseCardState extends State<PremiumCourseCard> {
                   ),
                 ],
               ),
-              Divider(height: 5,),
+              Divider(
+                height: 5,
+              ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                 child: Row(

@@ -1,13 +1,15 @@
+import 'package:deviginite_app/routers/NamedRoutes.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:get/get.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:deviginite_app/screens/Authentication/login_screen.dart';
-// import 'package:deviginite_app/services/Authentication.dart';
+// import 'package:deviginite_app/services/Authentication.dart';fa=fsig
 import 'package:deviginite_app/utils/app_constants.dart';
 import 'package:deviginite_app/utils/button.dart';
 import 'package:deviginite_app/utils/text_field.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../services/Authentication.dart';
 
@@ -279,7 +281,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 controller: emailController,
                                 hintText: "email",
                                 obscureText: false),
-                                const SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             myTextField(
@@ -325,13 +327,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            LoginPage(),
-                                      ),
-                                    );
+                                    GoRouter.of(context)
+                                        .pushNamed(CommonRoutes.login);
                                   },
                                   child: const Text(
                                     "Sign In",

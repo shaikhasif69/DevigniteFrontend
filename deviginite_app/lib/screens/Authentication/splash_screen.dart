@@ -29,16 +29,16 @@ class _SplashScreenState extends State<SplashScreen> {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
 
       bool? isLoggedIn = prefs.getBool("isLoggedIn");
-      print("this is the is logged ins:" );
+      print("this is the is logged ins:");
       print(isLoggedIn);
 
       if (isLoggedIn != null) {
         if (isLoggedIn) {
           print("it is logged in!");
-          GoRouter.of(context).pushReplacementNamed(CommonRoutes.login);
+          GoRouter.of(context)
+              .pushReplacementNamed(StudentsRoutes.blindHomepage);
           ;
-        }
-        else{
+        } else {
           print("the else is working!");
         }
       } else {

@@ -51,6 +51,7 @@ dependencies:
   flutter_joystick: ^0.0.3
   vibration: ^1.8.4
   flutter_tts: ^3.8.5
+  scroll_to_index: ^3.0.1
 
 dev_dependencies:
   flutter_test:

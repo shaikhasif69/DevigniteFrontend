@@ -117,15 +117,15 @@ class Authentication {
     final result = jsonDecode(data);
     print("result : " + result.toString());
     var mess = result["success"];
-     print("this is the mess: " + mess.toString());
+    print("this is the mess: " + mess.toString());
     if (mess) {
-      // final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
       print("i am working!");
       // await prefs.setString('userId', mess["_id"]);
       // await prefs.setString('userEmail', mess["email"]);
       // await prefs.setString('userPhone', mess["userPhone"]);
       // await prefs.setString('userPassword', mess["userPassword"]);
-      // await prefs.setBool("isLoggedIn", true);/
+      await prefs.setBool("isLoggedIn", true);
 
       return true;
     } else {
@@ -166,7 +166,6 @@ class Authentication {
 
         return false;
       }
-
     }
   }
 }

@@ -29,7 +29,7 @@ class MyGoRouter {
       name: CommonRoutes.root,
       pageBuilder: (context, state) {
         return MaterialPage(
-            child: BlindHomePage(
+            child: SplashScreen(
           key: state.pageKey,
         ));
       },
