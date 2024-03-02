@@ -1,27 +1,30 @@
+import 'package:deviginite_app/ThemeData/ThemeData.dart';
+import 'package:deviginite_app/routers/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-// import 'package:deviginite_app/screens/home_screen.dart';
-// import 'package:deviginite_app/tabs/dashboard_nav.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-import 'routers/routes.dart';
-import 'screens/login_screen.dart';
-// import 'screens/profile_screen.dart';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-void main() {
-  runApp(const MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
+
+myThemeData themeData = myThemeData();
+final route = MyGoRouter();
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(primarySwatch: Colors.amber),
-      debugShowCheckedModeBanner: false,
-      initialRoute: "/",
-      getPages: AppRoutes.generateRoutes,
+  Widget build(context) {
+    return MaterialApp.router(
+      routeInformationParser: route.router.routeInformationParser,
+      routeInformationProvider: route.router.routeInformationProvider,
+      routerDelegate: route.router.routerDelegate,
+      theme: themeData.lightTheme,
+      darkTheme: themeData.darkTheme,
+      themeMode: themeData.themeMode,
     );
   }
 }

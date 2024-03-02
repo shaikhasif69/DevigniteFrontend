@@ -66,7 +66,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   width: 500,
                   height: 200,
                   decoration: const BoxDecoration(
-                    color: AppConstants.themeColor,
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(30),
                       bottomRight: Radius.circular(30),
