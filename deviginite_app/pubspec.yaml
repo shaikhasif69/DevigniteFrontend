@@ -51,6 +51,8 @@ dependencies:
   flutter_joystick: ^0.0.3
   vibration: ^1.8.4
   flutter_tts: ^3.8.5
+  flip_card: ^0.7.0
+  appinio_swiper: ^2.1.0
 
 dev_dependencies:
   flutter_test:

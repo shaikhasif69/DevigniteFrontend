@@ -10,74 +10,77 @@ import 'dart:developer';
 class Authentication {
   static Future<bool> registerUser(name, age, gauradianName, relation, email,
       phone, password, disablityType) async {
-    print("Called");
-    Map<String, String>? location = await getLocation();
-    log(name: "this is the location: ", location.toString());
-    if (location != null) {
-      log(name: "something", location.toString());
-      var response = await http.post(
-        Uri.parse(
-          "https://devignite.vercel.app/api/user",
-        ),
-        body: jsonEncode(
-          {
-            "name": name,
-            "age": age,
-            "email": email,
-            "password": password,
-            "guardian_name": gauradianName,
-            "guardian_relation": relation,
-            "guardian_number": "+91" + phone,
-            "disability_type": disablityType,
-          },
-        ),
-        headers: {"Content-Type": "application/json"},
+    print("called for register!");
+    // Map<String, String>? location = await getLocation();
+    // log(name: "this is the location: ", location.toString());
+
+    // log(name: "something", location.toString());
+    var response = await http.post(
+      Uri.parse(
+        "https://devignite.vercel.app/api/user",
+      ),
+      body: jsonEncode(
+        {
+          "name": name,
+          "age": age,
+          "disability_type": disablityType,
+          "email": email,
+          "password": password,
+          "guardian_name": gauradianName,
+          "guardian_relation": relation,
+          "guardian_number": phone,
+        },
+      ),
+      headers: {"Content-Type": "application/json"},
+    );
+
+    var data = await response.body;
+    print("this is the data : " + data);
+    final result = jsonDecode(data);
+    print("result : " + result.toString());
+    var mess = result["success"];
+
+    print("mess" + mess);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('userEmail', email);
+    await prefs.setString('guardian_number', phone);
+    await prefs.setString('userPassword', password);
+    await prefs.setBool("isLoggedIn", true);
+
+    if (mess == true) {
+      print("successfully created!");
+      Fluttertoast.showToast(
+        msg: "Your Account has been created",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0,
       );
 
-      var data = await response.body;
-      final result = jsonDecode(data);
-      print(result);
-      var mess = result["data"];
-      print("mess" + mess);
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('userEmail', email);
-      await prefs.setString('guardian_number', phone);
+      await prefs.setString('userPhone', phone);
       await prefs.setString('userPassword', password);
-      await prefs.setBool("isLoggedIn", true);
 
-      if (mess == "ok") {
-        Fluttertoast.showToast(
-          msg: "Your Account has been created",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0,
-        );
-
-        final SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString('userEmail', email);
-        await prefs.setString('userPhone', phone);
-        await prefs.setString('userPassword', password);
-
-        return true;
-      } else {
-        Fluttertoast.showToast(
-          msg: mess.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0,
-        );
-
-        return false;
-      }
+      return true;
     } else {
-      throw "Not registring the user!";
+      Fluttertoast.showToast(
+        msg: mess.toString(),
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+
+      return false;
     }
+    //  else {
+    //   throw "Not registring the user!";
+    // }
   }
 
   static Future<Map<String, String>> getLocation() async {
@@ -117,7 +120,7 @@ class Authentication {
     final result = jsonDecode(data);
     print("result : " + result.toString());
     var mess = result["success"];
-     print("this is the mess: " + mess.toString());
+    print("this is the mess: " + mess.toString());
     if (mess) {
       // final SharedPreferences prefs = await SharedPreferences.getInstance();
       print("i am working!");
@@ -166,7 +169,6 @@ class Authentication {
 
         return false;
       }
-
     }
   }
 }

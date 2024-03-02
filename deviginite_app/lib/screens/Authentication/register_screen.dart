@@ -1,3 +1,4 @@
+import 'package:deviginite_app/routers/NamedRoutes.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:get/get.dart';
 
@@ -8,6 +9,7 @@ import 'package:deviginite_app/screens/Authentication/login_screen.dart';
 import 'package:deviginite_app/utils/app_constants.dart';
 import 'package:deviginite_app/utils/button.dart';
 import 'package:deviginite_app/utils/text_field.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../services/Authentication.dart';
 
@@ -307,7 +309,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 );
 
                                 if (isLoggedIn) {
-                                  Get.toNamed("/userDashboard");
+                                  GoRouter.of(context).pushNamed(StudentsRoutes.blindHomepage);
                                 }
                               },
                             ),
