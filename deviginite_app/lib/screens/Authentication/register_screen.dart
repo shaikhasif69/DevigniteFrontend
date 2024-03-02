@@ -3,11 +3,13 @@ import 'package:get/get.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:deviginite_app/screens/login_screen.dart';
+import 'package:deviginite_app/screens/Authentication/login_screen.dart';
 // import 'package:deviginite_app/services/Authentication.dart';
 import 'package:deviginite_app/utils/app_constants.dart';
 import 'package:deviginite_app/utils/button.dart';
 import 'package:deviginite_app/utils/text_field.dart';
+
+import '../../services/Authentication.dart';
 
 class RegisterPage extends StatefulWidget {
   RegisterPage({super.key});
@@ -24,6 +26,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   final passwordController = TextEditingController();
   final nameController = TextEditingController();
+  final gaurdianNameController = TextEditingController();
   final emailController = TextEditingController();
 
   // void registerUser() async {
@@ -50,7 +53,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          backgroundColor: Colors.grey.shade100,
+          backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
           body: SingleChildScrollView(
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.center,
@@ -58,8 +61,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 Container(
                   width: 500,
                   height: 200,
-                  decoration: const BoxDecoration(
-                    color: AppConstants.extraColor,
+                  decoration: BoxDecoration(
+                    color: AppConstants.blueGreenBack,
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(30),
                       bottomRight: Radius.circular(30),
@@ -81,7 +84,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 35,
-                            color: Colors.white),
+                            color: Colors.black),
                       ),
                       //welcome back you have been missed !
                       const SizedBox(
@@ -103,7 +106,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           boxShadow: [
                             BoxShadow(
                               blurRadius: 1,
-                              color: Colors.grey.shade200,
+                              color: AppConstants.registerBackWid,
                             )
                           ],
                           borderRadius: BorderRadius.circular(20),
@@ -137,24 +140,10 @@ class _RegisterPageState extends State<RegisterPage> {
                               hintText: "Age",
                               obscureText: false,
                             ),
-                            // const SizedBox(
-                            //   height: 10,
-                            // ),
-                            // myTextField(
-                            //   controller: phoneController,
-                            //   hintText: "Phone",
-                            //   obscureText: false,
-                            // ),
                             const SizedBox(
                               height: 10,
                             ),
-                            // myTextField(
-                            //     controller: passwordController,
-                            //     hintText: "Password",
-                            //     obscureText: true),
-                            // const SizedBox(
-                            //   height: 10,
-                            // ),
+
                             DropdownButtonHideUnderline(
                               child: DropdownButton2<String>(
                                 isExpanded: true,
@@ -264,7 +253,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               height: 10,
                             ),
                             myTextField(
-                              controller: nameController,
+                              controller: gaurdianNameController,
                               hintText: "Name",
                               obscureText: false,
                             ),
@@ -276,40 +265,56 @@ class _RegisterPageState extends State<RegisterPage> {
                               hintText: "Relation",
                               obscureText: false,
                             ),
-const SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            myTextField(controller: phoneController, hintText: "number", obscureText: false),
-const SizedBox(
+                            myTextField(
+                                controller: phoneController,
+                                hintText: "number",
+                                obscureText: false),
+                            const SizedBox(
                               height: 10,
                             ),
-                            myTextField(controller:emailController , hintText: "email", obscureText: false),
+                            myTextField(
+                                controller: emailController,
+                                hintText: "email",
+                                obscureText: false),
+                                const SizedBox(
+                              height: 10,
+                            ),
+                            myTextField(
+                                controller: passwordController,
+                                hintText: "password",
+                                obscureText: false),
                             //forgot password?
                             const SizedBox(
                               height: 25,
                             ),
 
-                            // MyButton(
-                            //   text: "Create Account",
-                            //   onTap: () async {
-                            //     bool isLoggedIn =
-                            //         await Authentication.registerUser(
-                            //       nameController.text,
-                            //       ageController.text,
-                            //       phoneController.text,
-                            //       passwordController.text,
-                            //       selectedValue,
-                            //     );
+                            MyButton(
+                              text: "Create Account",
+                              onTap: () async {
+                                bool isLoggedIn =
+                                    await Authentication.registerUser(
+                                  nameController.text,
+                                  ageController.text,
+                                  gaurdianNameController.text,
+                                  relationController.text,
+                                  emailController.text,
+                                  phoneController.text,
+                                  passwordController.text,
+                                  selectedValue,
+                                );
 
-                            //     if (isLoggedIn) {
-                            //       Get.toNamed("/userDashboard");
-                            //     }
-                            //   },
-                            // ),
+                                if (isLoggedIn) {
+                                  Get.toNamed("/userDashboard");
+                                }
+                              },
+                            ),
 
-                            // const SizedBox(
-                            //   height: 40,
-                            // ),
+                            const SizedBox(
+                              height: 40,
+                            ),
 
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
