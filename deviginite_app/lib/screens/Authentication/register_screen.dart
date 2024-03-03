@@ -309,7 +309,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 );
 
                                 if (isLoggedIn) {
-                                  Get.toNamed("/userDashboard");
+                                  GoRouter.of(context).pushNamed(StudentsRoutes.blindHomepage);
                                 }
                               },
                             ),

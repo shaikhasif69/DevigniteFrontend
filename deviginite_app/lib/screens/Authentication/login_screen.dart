@@ -1,4 +1,5 @@
 import 'package:deviginite_app/routers/NamedRoutes.dart';
+import 'package:deviginite_app/services/Quiz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 // import 'package:deviginite_app/screens/register_screen.dart';
@@ -148,10 +149,12 @@ class _LoginPageState extends State<LoginPage> {
                                 print(isLoggedIn);
                                 print("avove is the logged ");
 
-                                if (isLoggedIn) {
-                                  GoRouter.of(context).pushReplacementNamed(
-                                      StudentsRoutes.blindHomepage);
-                                }
+                                // if (isLoggedIn) {
+                                //   GoRouter.of(context).pushReplacementNamed(
+                                //       StudentsRoutes.blindHomepage);
+                                // }
+                                // var wow = false;
+                                // var something = await Quiz.getQuiz(wow);
                               },
                             ),
 

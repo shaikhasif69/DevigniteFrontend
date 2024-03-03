@@ -18,16 +18,6 @@ import '../screens/Authentication/splash_screen.dart';
 
 class MyGoRouter {
   final GoRouter router = GoRouter(routes: [
-    // GoRoute(
-    //   path: "/",
-    //   name: CommonRoutes.root,
-    //   pageBuilder: (context, state) {
-    //     return MaterialPage(
-    //         child: SplashScreen(
-    //       key: state.pageKey,
-    //     ));
-    //   },
-    // ),
     GoRoute(
       path: "/",
       name: CommonRoutes.root,
@@ -35,6 +25,16 @@ class MyGoRouter {
         return MaterialPage(child: SplashScreen());
       },
     ),
+    // GoRoute(
+    //   path: "/",
+    //   name: CommonRoutes.root,
+    //   pageBuilder: (context, state) {
+    //     return MaterialPage(
+    //         child: BlindHomePage(
+    //       key: state.pageKey,
+    //     ));
+    //   },
+    // ),
     GoRoute(
       path: "/root/login",
       name: CommonRoutes.login,
