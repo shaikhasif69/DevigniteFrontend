@@ -4,6 +4,7 @@ class CommonRoutes {
   static final String signUp = "signUp";
 }
 
-class StudentsRoutes{
+class StudentsRoutes {
   static final String blindHomepage = "b_dashboards";
+  static final String quiz = "quiz";
 }

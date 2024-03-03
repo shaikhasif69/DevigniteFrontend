@@ -47,11 +47,17 @@ dependencies:
   flutter_svg: ^2.0.10+1
   font_awesome_flutter: ^10.7.0
   line_awesome_flutter: ^2.0.0
+  permission_handler: ^9.2.0
   volume_controller: ^2.0.7
   flutter_joystick: ^0.0.3
   vibration: ^1.8.4
   flutter_tts: ^3.8.5
   scroll_to_index: ^3.0.1
+  volume_watcher: ^2.0.1
+  flutter_android_volume_keydown: ^1.0.0
+  siri_wave: ^2.0.0+1
+  flutter_colorpicker: ^1.0.3
+  speech_to_text: ^6.6.1
 
 dev_dependencies:
   flutter_test:

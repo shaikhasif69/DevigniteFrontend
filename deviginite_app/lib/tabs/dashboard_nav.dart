@@ -1,31 +1,35 @@
 import 'package:deviginite_app/Fragments.dart/learningPage.dart';
+import 'package:deviginite_app/provider/bottomNavigationprovider.dart';
 import 'package:deviginite_app/screens/students/b_home_screen.dart';
 import 'package:deviginite_app/screens/students/b_learning_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 
 import '../screens/students/profile_screen.dart';
 
-class UserDashBoard extends StatefulWidget {
+class UserDashBoard extends ConsumerStatefulWidget {
   const UserDashBoard({super.key});
 
   @override
-  State<UserDashBoard> createState() => _UserDashBoardState();
+  ConsumerState<UserDashBoard> createState() => _UserDashBoardState();
 }
 
-class _UserDashBoardState extends State<UserDashBoard> {
+class _UserDashBoardState extends ConsumerState<UserDashBoard> {
   int _currentIndex = 0;
   final tabs = [
     BHomeScreen(),
     BlindHomePage(),
-    // SearchPage(),
     ProfileScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(BottomNaigationProvider);
+    _currentIndex = ref.read(BottomNaigationProvider.notifier).selectedSubIs();
+    print("my Cureent is " + _currentIndex.toString());
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,

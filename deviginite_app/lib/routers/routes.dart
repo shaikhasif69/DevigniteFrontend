@@ -1,6 +1,10 @@
+import 'package:deviginite_app/Fragments.dart/Wave.dart';
 import 'package:deviginite_app/Fragments.dart/learningPage.dart';
 import 'package:deviginite_app/Fragments.dart/joy.dart';
+import 'package:deviginite_app/Fragments.dart/quizPage.dart';
+import 'package:deviginite_app/Fragments.dart/volume.dart';
 import 'package:deviginite_app/routers/NamedRoutes.dart';
+import 'package:deviginite_app/screens/students/b_home_screen.dart';
 import 'package:deviginite_app/tabs/dashboard_nav.dart';
 import 'package:deviginite_app/screens/Authentication/login_screen.dart';
 import 'package:deviginite_app/screens/Authentication/register_screen.dart';
@@ -28,10 +32,7 @@ class MyGoRouter {
       path: "/",
       name: CommonRoutes.root,
       pageBuilder: (context, state) {
-        return MaterialPage(
-            child: SplashScreen(
-          key: state.pageKey,
-        ));
+        return MaterialPage(child: SplashScreen());
       },
     ),
     GoRoute(
@@ -63,6 +64,13 @@ class MyGoRouter {
           key: state.pageKey,
         ));
       },
-    )
+    ),
+    GoRoute(
+      path: "/root/students/quiz",
+      name: StudentsRoutes.quiz,
+      pageBuilder: (context, state) {
+        return MaterialPage(child: QuizScreen());
+      },
+    ),
   ]);
 }
