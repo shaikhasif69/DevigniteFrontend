@@ -4,7 +4,9 @@ import 'dart:math';
 import 'dart:developer' as log;
 import 'package:deviginite_app/Fragments.dart/Wave.dart';
 import 'package:deviginite_app/model/quiz.dart';
+import 'package:deviginite_app/services/quiz.dart';
 import 'package:deviginite_app/provider/bottomNavigationprovider.dart';
+// import 'package:deviginite_app/services/Quiz.dart';
 import 'package:deviginite_app/services/quiz.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -101,8 +103,8 @@ class _HomeScreenState extends ConsumerState<BHomeScreen> {
 
       print("hhhhh" + _lastWords);
     });
-    AIData = await QuizServices.fetchMessage(_lastWords);
-    print("data from serevr");
+    // QuizServices.fetchMessage(_lastWords);
+    AIData = await QuizServices.fetchMessage("data from serevr");
     print(AIData);
     if (AIData['status'] == "success") {
       if (AIData['text'][0] == '/') {
