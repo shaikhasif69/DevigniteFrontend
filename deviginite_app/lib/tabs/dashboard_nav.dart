@@ -1,5 +1,6 @@
 import 'package:deviginite_app/Fragments.dart/learningPage.dart';
 import 'package:deviginite_app/provider/bottomNavigationprovider.dart';
+import 'package:deviginite_app/provider/flutterTts2provider.dart';
 import 'package:deviginite_app/screens/students/b_home_screen.dart';
 import 'package:deviginite_app/screens/students/b_learning_screen.dart';
 import 'package:flutter/material.dart';
@@ -18,18 +19,27 @@ class UserDashBoard extends ConsumerStatefulWidget {
 }
 
 class _UserDashBoardState extends ConsumerState<UserDashBoard> {
-  int _currentIndex = 0;
+  void initState() {
+    super.initState();
+    ref.read(FLutterTTSProvider2.notifier).assignRouteFun(gotTORoute);
+  }
+
+  int _currentIndex = 1;
   final tabs = [
     BHomeScreen(),
     BlindHomePage(),
     ProfileScreen(),
   ];
+  void gotTORoute(int data) {
+    print(data);
+    ref.read(BottomNaigationProvider.notifier).selectSub(data);
+  }
 
   @override
   Widget build(BuildContext context) {
     ref.watch(BottomNaigationProvider);
     _currentIndex = ref.read(BottomNaigationProvider.notifier).selectedSubIs();
-    print("my Cureent is " + _currentIndex.toString());
+    // print("my Cureent is " + _currentIndex.toString());
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -43,17 +53,32 @@ class _UserDashBoardState extends ConsumerState<UserDashBoard> {
         selectedItemColor: Colors.black,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: IconButton(
+              icon: Icon(Icons.home),
+              onPressed: () {
+                ref.read(BottomNaigationProvider.notifier).selectSub(0);
+              },
+            ),
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            label: "Learnings",
+            icon: IconButton(
+              icon: Icon(Icons.book),
+              onPressed: () {
+                ref.read(BottomNaigationProvider.notifier).selectSub(1);
+              },
+            ),
+            label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_rounded),
+            icon: IconButton(
+              icon: const Icon(Icons.account_circle_rounded),
+              onPressed: () {
+                ref.read(BottomNaigationProvider.notifier).selectSub(2);
+              },
+            ),
             label: "Profile",
-          ),
+          )
           // BottomNavigationBarItem(
           //   icon: Icon(Icons.more_horiz),
           //   label: "More",

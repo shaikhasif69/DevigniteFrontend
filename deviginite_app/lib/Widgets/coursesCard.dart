@@ -4,7 +4,7 @@ class CoursesCard extends StatelessWidget {
   CoursesCard({required this.isSeleted});
   bool isSeleted;
   Widget build(context) {
-    print("isSele " + isSeleted.toString());
+    // print("isSele " + isSeleted.toString());
     Size size = MediaQuery.of(context).size;
 
     return Text("");

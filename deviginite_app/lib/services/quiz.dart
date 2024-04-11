@@ -48,6 +48,7 @@ class QuizServices {
     final String endpoint = 'http://192.168.0.106:8080/ai/';
 
     try {
+      print("body is  " + message);
       final response = await http.post(Uri.parse(endpoint),
           headers: {'Content-Type': 'application/json'}, body: message);
 
@@ -57,6 +58,30 @@ class QuizServices {
         // Get the text message from the response
         String? textMessage = response.body;
 
+        // Return the text message
+        return textMessage;
+      } else {
+        // If the request was not successful, print the error status code
+        print('Failed with status code: ${response.statusCode}');
+        return "fail";
+      }
+    } catch (e) {
+      // If an exception occurs, print the error
+      print('Exception occurred: $e');
+      return "fail";
+    }
+  }
+
+  static Future<String> getRoute(String message) async {
+    // Define the endpoint URL
+    final String endpoint = 'http://192.168.0.106:8080/ai/getRoute';
+
+    try {
+      final response = await http.post(Uri.parse(endpoint), body: message);
+      if (response.statusCode == 200) {
+        // Decode the response JSON
+        // Get the text message from the response
+        String? textMessage = response.body;
         // Return the text message
         return textMessage;
       } else {

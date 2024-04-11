@@ -6,54 +6,21 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
-class FlutterTTSProviderNotifer extends StateNotifier<String> {
-  FlutterTTSProviderNotifer() : super("");
-  late AnimationController controller;
-  late Function micOff;
-  late Function micSwitchFunOn;
-  late Function micSwitchFunOf;
+class FlutterTTS2ProviderNotifer extends StateNotifier<String> {
+  FlutterTTS2ProviderNotifer() : super("");
+  late Function routeTo;
   final FlutterTts ftts = FlutterTts();
   final SpeechToText speechToText = SpeechToText();
   bool speechEnabled = false;
   String lastWords = "";
-  String data = "";
   bool micSwitch = false;
-  double roboWidth = 400;
   bool micOn = false;
-  double roboheight = 400;
-  bool fetchingResult = false;
+  String data = "";
+  double roboHeight = 400;
+  double roboWidth = 400;
+  bool listenMood = false;
+  bool fecthMood = false;
   bool solution = false;
-  String solutionString = "";
-  bool listenModeBool = false;
-  void listenMode() {
-    roboWidth = 200;
-    roboheight = 200;
-    // micSwitch = true;
-    micSwitchFunOn();
-    state = "s";
-  }
-
-  void micOFFFun(Function fun) {
-    micOff = fun;
-  }
-
-  void micSwitchFunnOn(Function fun) {
-    micSwitchFunOn = fun;
-  }
-
-  void micSwitchFunnOf(Function fun) {
-    micSwitchFunOf = fun;
-  }
-
-  void AiInit() {
-    solution = false;
-    listenModeBool = false;
-    roboWidth = 400;
-    roboheight = 400;
-    print("init");
-    state = "";
-  }
-
   void initSpeech() async {
     listenForPermissions();
     if (!speechEnabled) {
@@ -61,53 +28,71 @@ class FlutterTTSProviderNotifer extends StateNotifier<String> {
     }
   }
 
+  void assignRouteFun(Function fun) {
+    routeTo = fun;
+  }
+
+  void listenMode(string) async {
+    await ftts.awaitSpeakCompletion(true);
+    await ftts.speak(string);
+    micOn = true;
+    roboHeight = 250;
+    roboWidth = 250;
+    state = "changed";
+
+    startListening();
+  }
+
   void stopListening() async {
-    listenModeBool = false;
-    micOn = false;
-    micOff();
     // micSwitch = false;
+
     // micSwitchFunOf();
-    state = "2";
+    micOn = false;
+
+    listenMood = false;
+
     await ftts.stop();
 
     await speechToText.stop();
-
-    lastWords = "";
+    state = "2";
   }
 
   void onSpeechResult(SpeechRecognitionResult result) async {
-    print("result: " + lastWords);
-    solution = false;
-    micOff();
-    micOn = false;
-    listenModeBool = false;
     lastWords = result.recognizedWords;
-    print("result1: " + lastWords);
+    listenMood = false;
     data = lastWords;
+    fecthMood = true;
     state = "lastwords";
-    fetchingResult = true;
-    controller.repeat();
-
-    String res = await QuizServices.fetchMessage(lastWords);
-    controller.stop();
-    fetchingResult = false;
-
+    print("recult is :" + lastWords);
+    String res = await QuizServices.getRoute(lastWords);
+    fecthMood = false;
     print(res);
     if (res != "fail") {
-      solution = true;
-      solutionString = res;
+      speak("Heading to " + res);
+      if (res == '"/profile"') {
+        routeTo(2);
+      } else if (res == '"/home"') {
+        routeTo(0);
+      } else if (res == '"/learnings"') {
+        routeTo(1);
+      }
+      micOn = false;
+      micSwitch = false;
     } else {
-      solutionString = "Some Internal Error Occured Please Try again later";
+      listenMode("Failed Please try again");
     }
-    ftts.speak(solutionString);
+    listenMood = false;
+
     state = "result";
   }
 
   void startListening() async {
+    listenMood = true;
+    state = "998";
     await ftts.stop();
     data = "listening...";
     await ftts.speak("listening...");
-    listenModeBool = true;
+
     lastWords = '';
     state = "0";
     await speechToText.listen(
@@ -116,12 +101,14 @@ class FlutterTTSProviderNotifer extends StateNotifier<String> {
       localeId: "en_En",
       cancelOnError: false,
       partialResults: false,
+      listenOptions:
+          SpeechListenOptions(autoPunctuation: true, cancelOnError: true),
       listenMode: ListenMode.confirmation,
     );
+
     if (lastWords == "") {
-      micOff();
-    }
-    state = "lsi";
+      print("sss");
+    } else {}
     print(lastWords);
   }
 
@@ -163,13 +150,11 @@ class FlutterTTSProviderNotifer extends StateNotifier<String> {
   void welcome() async {
     data = "Welcome To SAP Voice Assistive AI.... How Can I Help You?";
     await ftts.awaitSpeakCompletion(true);
-    await ftts.speak(data).whenComplete(() {
-      listenMode();
-    });
+    await ftts.speak(data).whenComplete(() {});
     // await ftts.awaitSpeakCompletion(false);
   }
 }
 
-final FLutterTTSProvider =
-    StateNotifierProvider<FlutterTTSProviderNotifer, String>(
-        (ref) => FlutterTTSProviderNotifer());
+final FLutterTTSProvider2 =
+    StateNotifierProvider<FlutterTTS2ProviderNotifer, String>(
+        (ref) => FlutterTTS2ProviderNotifer());

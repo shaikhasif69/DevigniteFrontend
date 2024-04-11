@@ -1,6 +1,11 @@
 import 'dart:developer' as log;
+import 'package:deviginite_app/Widgets/Navigation.dart';
+import 'package:deviginite_app/Widgets/voiceAi.dart';
+import 'package:deviginite_app/provider/flutterTTSProvider.dart';
+import 'package:deviginite_app/provider/flutterTts2provider.dart';
 import 'package:flutter/material.dart';
-
+import 'package:get/get_navigation/src/routes/default_transitions.dart';
+import 'package:lottie/lottie.dart';
 import 'package:deviginite_app/Widgets/coursesCard.dart';
 import 'package:deviginite_app/model/subject.dart';
 import 'package:deviginite_app/provider/Student/HomePageProvider.dart';
@@ -39,29 +44,15 @@ class BHomeScreen extends ConsumerStatefulWidget {
   ConsumerState<BHomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<BHomeScreen> {
-  SiriWaveformController controller =
-      IOS7SiriWaveformController(color: Colors.pink);
+class _HomeScreenState extends ConsumerState<BHomeScreen>
+    with TickerProviderStateMixin {
+  // SiriWaveformController controller =
+  //     IOS7SiriWaveformController(color: Colors.pink);
+
   final ScrollController _assignmentController = ScrollController();
   final ScrollController _courseController = ScrollController();
 
   String TextData = "";
-
-  /// Each time to start a speech recognition session
-
-  /// Manually stop the active speech recognition session
-  /// Note that there are also timeouts that each platform enforces
-  /// and the SpeechToText plugin supports setting timeouts on the
-  /// listen method.
-
-  /// This is the callback that the SpeechToText plugin calls when
-  /// the platform returns recognized words.
-
-  // Future<dynamic> courses =
-
-  // Future<dynamic> campaigns = Campaigns.getLatest5Campaigns();
-  // Future<dynamic> upcomingCampaigns = Campaigns.getLatest5UpcomingCampaigns();
-  // Future<dynamic> nearbyCampaigns = Campaigns.getNearByCampaigns(_currentPosition!.latitude, );
 
   @override
   void dispose() {
@@ -69,13 +60,16 @@ class _HomeScreenState extends ConsumerState<BHomeScreen> {
   }
 
   int PageSegmentAccessed = 0;
-
-  double ballSize = 20.0;
+  int containerWidth = 0;
+  double containerHeight = 0;
+  double container2Height = 0;
+  double ballSize = 10.0;
   double step = 10.0;
   double _x = 100;
   double _y = 100;
   JoystickMode _joystickMode = JoystickMode.horizontalAndVertical;
-
+  // bool micSwitch = false;
+  // bool micOn = false;
   @override
   void didChangeDependencies() {
     _x = MediaQuery.of(context).size.width / 2 - ballSize / 2;
@@ -84,19 +78,48 @@ class _HomeScreenState extends ConsumerState<BHomeScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    // eventController.getAllEventsForUser();
+    ref.read(FLutterTTSProvider.notifier).initSpeech();
+    ref.read(FLutterTTSProvider2.notifier).initSpeech();
+    ref.read(FLutterTTSProvider.notifier).micOFFFun(micOffFun);
+    ref.read(FLutterTTSProvider.notifier).micSwitchFunnOn(micSwitchFunOn);
+    ref.read(FLutterTTSProvider.notifier).micSwitchFunnOf(micSwitchFunOf);
     super.initState();
   }
 
-  bool _speechEnabled = false;
-  String _lastWords = "";
+  void micSwitchFunOn() {
+    ref.read(FLutterTTSProvider.notifier).micSwitch = true;
+    setState(() {});
+  }
+
+  void micSwitchFunOf() {
+    ref.read(FLutterTTSProvider.notifier).micSwitch = false;
+    print(ref.read(FLutterTTSProvider.notifier).micSwitch);
+    ref.read(FLutterTTSProvider.notifier).micOn = false;
+    setState(() {
+      print("off is ");
+    });
+  }
+
+  void setContainerHeight2() {
+    setState(() {
+      container2Height = 0;
+    });
+  }
+
+  void micOffFun() {
+    setState(() {
+      ref.read(FLutterTTSProvider.notifier).micOn = false;
+    });
+  }
 
   final TextEditingController _textController = TextEditingController();
 
   bool voiceAssistent = false;
   @override
   Widget build(BuildContext context) {
+    if (containerHeight == 0) {
+      ref.read(FLutterTTSProvider.notifier).micSwitch = false;
+    }
     ref.watch(HomePagesegmentProvider);
     ref.watch(HomePageAssignmentProvider);
     int seletedAssignment =
@@ -105,6 +128,8 @@ class _HomeScreenState extends ConsumerState<BHomeScreen> {
         ref.watch(HomePageCoursesProvider.notifier).selectedCorse();
     int selectedSeg =
         ref.read(HomePagesegmentProvider.notifier).selectedSegment();
+
+    print("mic: " + ref.read(FLutterTTSProvider.notifier).micSwitch.toString());
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 175, 213, 235),
       body: SafeArea(
@@ -227,27 +252,163 @@ class _HomeScreenState extends ConsumerState<BHomeScreen> {
                 ),
               ),
             ),
+            AnimatedContainer(
+              height: containerHeight,
+              width: MediaQuery.of(context).size.width,
+              duration: const Duration(milliseconds: 180),
+              decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 75, 112, 139),
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(50),
+                      bottomRight: Radius.circular(50))),
+              child: VoiceAi(),
+            ),
+            AnimatedContainer(
+              height: container2Height,
+              width: MediaQuery.of(context).size.width,
+              duration: const Duration(milliseconds: 180),
+              decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 75, 112, 139),
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(50),
+                      bottomRight: Radius.circular(50))),
+              child: NavigateAi(),
+            ),
             Positioned(
               // top: 3,
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Joystick(
-                  period: Duration(milliseconds: 400),
-                  stick: ElevatedButton(
-                    child: Text(""),
-                    onPressed: () {},
-                    onLongPress: () {
+                  period: Duration(seconds: 400),
+                  stick: InkWell(
+                    onTap: () {
                       if (selectedSeg == 1) {
                         GoRouter.of(context).pushNamed(StudentsRoutes.quiz);
                       } else if (selectedSeg <= 0) {
-                        setState(() {
-                          voiceAssistent = true;
-                        });
-                        openVoiceModal(context);
                         // VoiceAssistant();
                       }
-                      Vibration.vibrate(duration: 300);
                     },
+                    onLongPress: containerHeight == 0
+                        ? () {
+                            Vibration.vibrate(duration: 500);
+                            if (container2Height == 0) {
+                              setState(() {
+                                ref
+                                    .read(FLutterTTSProvider2.notifier)
+                                    .micSwitch = true;
+                                ref.read(FLutterTTSProvider2.notifier).micOn =
+                                    true;
+                                container2Height =
+                                    MediaQuery.of(context).size.height * 0.66;
+                                ref
+                                    .read(FLutterTTSProvider2.notifier)
+                                    .listenMode("Where Do You Want to head");
+                              });
+                            } else {
+                              setState(() {
+                                ref
+                                    .read(FLutterTTSProvider2.notifier)
+                                    .micSwitch = false;
+                                ref
+                                    .read(FLutterTTSProvider2.notifier)
+                                    .stopListening();
+                                container2Height = 0;
+                              });
+                            }
+                          }
+                        : null,
+                    onDoubleTap: container2Height == 0
+                        ? () async {
+                            Vibration.vibrate(duration: 300);
+
+                            setState(() {
+                              if (containerHeight == 0) {
+                                containerHeight =
+                                    MediaQuery.of(context).size.height * 0.66;
+                                // micSwitchFunOn();
+                                ref.read(FLutterTTSProvider.notifier).AiInit();
+                                ref.read(FLutterTTSProvider.notifier).welcome();
+                                // ref.read(FLutterTTSProvider.notifier).listenMode();
+                              } else {
+                                ref.read(FLutterTTSProvider.notifier).micOn =
+                                    false;
+                                containerHeight = 0;
+                                ref
+                                    .read(FLutterTTSProvider.notifier)
+                                    .stopListening();
+                                print("killed");
+                                micSwitchFunOf();
+                              }
+                            });
+                            // openVoiceModal(context);
+                          }
+                        : null,
+                    child: ref.read(FLutterTTSProvider.notifier).micSwitch ||
+                            ref.read(FLutterTTSProvider2.notifier).micSwitch
+                        ? InkWell(
+                            focusColor: Colors.transparent,
+                            onTap: () {
+                              Vibration.vibrate(duration: 100);
+                              setState(() {
+                                if (containerHeight != 0) {
+                                  if (ref
+                                      .read(FLutterTTSProvider.notifier)
+                                      .micSwitch) {
+                                    if (ref
+                                        .read(FLutterTTSProvider.notifier)
+                                        .micOn) {
+                                      ref
+                                          .read(FLutterTTSProvider.notifier)
+                                          .stopListening();
+                                      ref
+                                          .read(FLutterTTSProvider.notifier)
+                                          .micOn = false;
+                                    } else {
+                                      ref
+                                          .read(FLutterTTSProvider.notifier)
+                                          .micOn = true;
+
+                                      ref
+                                          .read(FLutterTTSProvider.notifier)
+                                          .startListening();
+                                    }
+                                  } else {}
+                                } else if (container2Height != 0) {
+                                  if (!ref
+                                      .read(FLutterTTSProvider2.notifier)
+                                      .micOn) {
+                                    setState(() {
+                                      ref
+                                          .read(FLutterTTSProvider2.notifier)
+                                          .listenMode("");
+                                    });
+                                  } else {
+                                    setState(() {
+                                      ref
+                                          .read(FLutterTTSProvider2.notifier)
+                                          .stopListening();
+                                    });
+                                  }
+                                }
+                              });
+                            },
+                            child: LottieBuilder.asset(
+                                height:
+                                    ref.read(FLutterTTSProvider.notifier).micOn
+                                        ? 170
+                                        : 120,
+                                animate: ref
+                                        .read(FLutterTTSProvider.notifier)
+                                        .micOn ||
+                                    ref
+                                        .read(FLutterTTSProvider2.notifier)
+                                        .micOn,
+                                'assets/images/Animation - 1712589400505.json'),
+                          )
+                        : ElevatedButton(
+                            child: Text(""),
+                            onPressed: () {},
+                          ),
                   ),
                   mode: _joystickMode,
                   listener: (details) {
@@ -301,13 +462,7 @@ class _HomeScreenState extends ConsumerState<BHomeScreen> {
                     if (ref
                             .watch(HomePagesegmentProvider.notifier)
                             .selectedSegment() >
-                        0)
-                      flutterTts.speak(homePageList[ref
-                              .watch(HomePagesegmentProvider.notifier)
-                              .selectedSegment() -
-                          1]['name']);
-
-                    ref.read(LearningPageProvider.notifier).selectSub(0);
+                        0) ref.read(LearningPageProvider.notifier).selectSub(0);
                     print("x is: " + details.x.toString());
                     print("y is: " + details.y.toString());
                     _x = _x + step * details.x;
@@ -327,18 +482,6 @@ class _HomeScreenState extends ConsumerState<BHomeScreen> {
       padding: EdgeInsets.symmetric(horizontal: 25),
       child: widget,
     );
-  }
-
-  void openVoiceModal(context) {
-    showBottomSheet(
-        context: context,
-        builder: (context) {
-          return Container(
-            child: Center(
-              child: Text("Text"),
-            ),
-          );
-        });
   }
 
   // Widget getHorizontalItemSlider(List<Events> items) {
