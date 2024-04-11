@@ -60,6 +60,9 @@ dependencies:
   speech_to_text: ^6.6.1
   flip_card: ^0.7.0
   appinio_swiper: ^2.1.0
+  hardware_buttons_find_flutter: ^0.0.4
+  flutter_gemini: ^2.0.3
+  langchain: ^0.4.2
 
 dev_dependencies:
   flutter_test:

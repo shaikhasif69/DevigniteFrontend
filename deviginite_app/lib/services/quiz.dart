@@ -43,42 +43,31 @@ class QuizServices {
     }
   }
 
-  static Future<Map> fetchMessage(String message) async {
+  static Future<String> fetchMessage(String message) async {
     // Define the endpoint URL
-    final String endpoint = 'http://192.168.70.149:3000/api/retrieval';
+    final String endpoint = 'http://192.168.0.106:8080/ai/';
 
     try {
-      // Create the JSON payload
-      Map<String, dynamic> payload = {
-        "messages": [message]
-      };
-
-      // Encode the payload
-      String jsonPayload = jsonEncode(payload);
-
-      // Make the POST request
       final response = await http.post(Uri.parse(endpoint),
-          headers: {'Content-Type': 'application/json'}, body: jsonPayload);
+          headers: {'Content-Type': 'application/json'}, body: message);
 
-      // Check if the request was successful
       if (response.statusCode == 200) {
         // Decode the response JSON
-        Map<String, dynamic> responseData = jsonDecode(response.body);
 
         // Get the text message from the response
-        String? textMessage = responseData['text'];
-        responseData['status'] = "success";
+        String? textMessage = response.body;
+
         // Return the text message
-        return responseData;
+        return textMessage;
       } else {
         // If the request was not successful, print the error status code
         print('Failed with status code: ${response.statusCode}');
-        return {"status": "fail"};
+        return "fail";
       }
     } catch (e) {
       // If an exception occurs, print the error
       print('Exception occurred: $e');
-      return {"status": "fail"};
+      return "fail";
     }
   }
 }
