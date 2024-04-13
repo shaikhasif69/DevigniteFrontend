@@ -1,3 +1,4 @@
+import 'package:deviginite_app/provider/flutterTts2provider.dart';
 import 'package:deviginite_app/services/quiz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,12 +6,17 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:vibration/vibration.dart';
 
 class FlutterTTSProviderNotifer extends StateNotifier<String> {
-  FlutterTTSProviderNotifer() : super("");
+  FlutterTTSProviderNotifer({required this.ref}) : super("");
+  dynamic ref;
   late AnimationController controller;
   late Function micOff;
+  late Function updateBHome;
   late Function micSwitchFunOn;
+  int containerWidth = 0;
+  double containerHeight = 0;
   late Function micSwitchFunOf;
   final FlutterTts ftts = FlutterTts();
   final SpeechToText speechToText = SpeechToText();
@@ -160,6 +166,30 @@ class FlutterTTSProviderNotifer extends StateNotifier<String> {
     ftts.speak(string);
   }
 
+  void onDoubleTap(context) async {
+    if (ref.read(FLutterTTSProvider2.notifier).container2Height == 0) {
+      Vibration.vibrate(duration: 300);
+
+      // setState(() {
+      if (containerHeight == 0) {
+        containerHeight = MediaQuery.of(context).size.height * 0.66;
+        // micSwitchFunOn();
+        AiInit();
+        welcome();
+        // ref.read(FLutterTTSProvider.notifier).listenMode();
+      } else {
+        micOn = false;
+        containerHeight = 0.0;
+        stopListening();
+        print("killed");
+        micSwitchFunOf();
+      }
+      updateBHome();
+      // });
+      // openVoiceModal(context);
+    }
+  }
+
   void welcome() async {
     data = "Welcome To SAP Voice Assistive AI.... How Can I Help You?";
     await ftts.awaitSpeakCompletion(true);
@@ -172,4 +202,4 @@ class FlutterTTSProviderNotifer extends StateNotifier<String> {
 
 final FLutterTTSProvider =
     StateNotifierProvider<FlutterTTSProviderNotifer, String>(
-        (ref) => FlutterTTSProviderNotifer());
+        (ref) => FlutterTTSProviderNotifer(ref: ref));

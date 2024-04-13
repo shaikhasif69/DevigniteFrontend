@@ -1,63 +1,80 @@
+import 'package:deviginite_app/provider/flutterTTSProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-class HpomePageSegmentListenerProvider extends StateNotifier<int> {
-  HpomePageSegmentListenerProvider() : super(0);
-  void selectSeg(int num) {
-    print(num);
-    state = num;
+Map<String, List> data = {
+  "quiz": [
+    {"title": "Quiz", "subtitle": "Quiz "}
+  ],
+  'assignment': [
+    {
+      "title": "Maths",
+      "subTitle": "Pythagorus",
+      'image': "assets/images/py.jpeg"
+    },
+    {
+      "title": "History",
+      "subTitle": "Battle Of Kondhana",
+      'image': "assets/images/battle.png"
+    },
+    {
+      "title": "geography",
+      "subTitle": "Amazon Forest",
+      'image': "assets/images/amazon.jpeg"
+    },
+    {
+      "title": "English",
+      "subTitle": "Where the Mind is Without Fear",
+      'image':
+          "assets/images/Where_the_mind_is_without_fear_by_ritwik_mango.jpg"
+    },
+    {
+      "title": "Marathi",
+      "subTitle": "Chotte se Bahen Bhau",
+      'image': "assets/images/chotte.jpeg"
+    },
+  ]
+};
+
+class HomePageSegmentNotifier extends StateNotifier<Map<String, List>> {
+  HomePageSegmentNotifier({required this.ref}) : super(data);
+  dynamic ref;
+  Color bg = Color.fromARGB(255, 175, 213, 235);
+  String selectedSeg = 'quiz';
+  late Function update;
+  int SelectedInt = -1;
+  late ItemScrollController scrollController;
+  void selectSeg(String num) {
+    SelectedInt = -1;
+    print("ss " + num);
+    selectedSeg = num;
+    state = {};
+    state = data;
   }
 
-  int selectedSegment() {
-    return state;
+  void selectIndex(int num) {
+    print("numi: " + num.toString());
+    if (num >= 0 && num < state[selectedSeg]!.length) {
+      SelectedInt = num;
+      scrollController.scrollTo(
+          index: SelectedInt, duration: Duration(milliseconds: 1000));
+    } else if (num == -1) {
+      SelectedInt = state[selectedSeg]!.length - 1;
+      scrollController.scrollTo(
+          index: SelectedInt, duration: Duration(milliseconds: 1000));
+    } else if (num == state[selectedSeg]!.length) {
+      SelectedInt = 0;
+      scrollController.scrollTo(
+          index: SelectedInt, duration: Duration(milliseconds: 1000));
+    }
+
+    state = {};
+
+    state = data;
   }
 }
-
-class HomePageAssigmentListenerProvider extends StateNotifier<int> {
-  HomePageAssigmentListenerProvider() : super(0);
-  void selectAssignment(int num, ScrollController _assignmentController) {
-    print(num);
-    state = num;
-    _scrollDown(_assignmentController);
-  }
-
-  void _scrollDown(ScrollController _assignmentController) {
-    _assignmentController.jumpTo(
-      state.toDouble() * 110,
-    );
-  }
-
-  int selectedAssignment() {
-    return state;
-  }
-}
-
-class HomePageCoursesListenerProvider extends StateNotifier<int> {
-  HomePageCoursesListenerProvider() : super(0);
-  void selectCourse(int num, ScrollController _courseController) {
-    print(num);
-    state = num;
-    _scrollDown(_courseController);
-  }
-
-  void _scrollDown(ScrollController _courseController) {
-    _courseController.jumpTo(
-      state.toDouble() * 110,
-    );
-  }
-
-  int selectedCorse() {
-    return state;
-  }
-}
-
-final HomePageCoursesProvider =
-    StateNotifierProvider<HomePageCoursesListenerProvider, int>(
-        (ref) => HomePageCoursesListenerProvider());
-final HomePageAssignmentProvider =
-    StateNotifierProvider<HomePageAssigmentListenerProvider, int>(
-        (ref) => HomePageAssigmentListenerProvider());
 
 final HomePagesegmentProvider =
-    StateNotifierProvider<HpomePageSegmentListenerProvider, int>(
-        (ref) => HpomePageSegmentListenerProvider());
+    StateNotifierProvider<HomePageSegmentNotifier, Map<String, List>>(
+        (ref) => HomePageSegmentNotifier(ref: ref));

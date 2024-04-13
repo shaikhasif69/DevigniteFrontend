@@ -66,6 +66,7 @@ dependencies:
   top_modal_sheet: ^2.1.0
   lottie: ^3.1.0
   animated_text_kit: ^4.2.2
+  scrollable_positioned_list: ^0.3.8
 
 dev_dependencies:
   flutter_test:

@@ -1,3 +1,4 @@
+import 'package:deviginite_app/provider/flutterTTSProvider.dart';
 import 'package:deviginite_app/services/quiz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,17 +6,21 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:vibration/vibration.dart';
 
 class FlutterTTS2ProviderNotifer extends StateNotifier<String> {
-  FlutterTTS2ProviderNotifer() : super("");
+  FlutterTTS2ProviderNotifer(this.ref) : super("");
+  dynamic ref;
   late Function routeTo;
   final FlutterTts ftts = FlutterTts();
   final SpeechToText speechToText = SpeechToText();
   bool speechEnabled = false;
   String lastWords = "";
   bool micSwitch = false;
+  double container2Height = 0;
   bool micOn = false;
   String data = "";
+  late Function updateBHome;
   double roboHeight = 400;
   double roboWidth = 400;
   bool listenMood = false;
@@ -147,6 +152,29 @@ class FlutterTTS2ProviderNotifer extends StateNotifier<String> {
     ftts.speak(string);
   }
 
+  void onLongPress(context) {
+    print("s");
+    if (ref.read(FLutterTTSProvider.notifier).containerHeight == 0) {
+      Vibration.vibrate(duration: 500);
+      if (container2Height == 0) {
+        // setState(() {
+        micSwitch = true;
+        micOn = true;
+        container2Height = MediaQuery.of(context).size.height * 0.66;
+        listenMode("Where Do You Want to Navigate");
+        // });
+      } else {
+        // setState(() {
+        micSwitch = false;
+        stopListening();
+        container2Height = 0.0;
+        // });
+      }
+      updateBHome();
+    }
+    ;
+  }
+
   void welcome() async {
     data = "Welcome To SAP Voice Assistive AI.... How Can I Help You?";
     await ftts.awaitSpeakCompletion(true);
@@ -157,4 +185,4 @@ class FlutterTTS2ProviderNotifer extends StateNotifier<String> {
 
 final FLutterTTSProvider2 =
     StateNotifierProvider<FlutterTTS2ProviderNotifer, String>(
-        (ref) => FlutterTTS2ProviderNotifer());
+        (ref) => FlutterTTS2ProviderNotifer(ref));
