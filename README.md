@@ -3,11 +3,8 @@ NavEdu - Accessible Education App for Specially Abled Students
 Overview
 NavEdu is an inclusive education platform designed to cater to the needs of specially-abled students. Developed for the DevIgnite Hackathon, this project earned 3rd place and aims to provide a seamless learning experience for students with diverse needs.
 
-APP: 
 
-https://github.com/user-attachments/assets/fc6bfe13-4a48-432d-bc6b-b161b4cdd5ce
-
-
+https://github.com/user-attachments/assets/ae19ccb2-09c1-44c9-bead-836fe2f57153
 
 
 
