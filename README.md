@@ -8,6 +8,13 @@ https://github.com/user-attachments/assets/ae19ccb2-09c1-44c9-bead-836fe2f57153
 
 
 
+https://github.com/user-attachments/assets/45fb6363-bc53-4a78-bbe9-73976ee92afb
+
+
+
+
+
+
 Features
 Joystick Navigation: For visually impaired students, the app includes a joystick-based navigation system that allows easy screen navigation with voice feedback.
 Touchless Interface: For physically disabled users, the app offers a touchless interface controlled entirely through voice commands.
