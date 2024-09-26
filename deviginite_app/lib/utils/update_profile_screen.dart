@@ -15,8 +15,9 @@ class UpdateProfileScreen extends StatelessWidget {
         leading: IconButton(
             onPressed: () => Get.back(),
             icon: const Icon(LineAwesomeIcons.angle_left)),
-        title:
-            Text("tEditProfile", style: Theme.of(context).textTheme.headline4),
+        title: Text(
+          "tEditProfile",
+        ),
       ),
       body: SingleChildScrollView(
         child: Container(

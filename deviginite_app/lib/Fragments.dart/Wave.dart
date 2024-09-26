@@ -366,7 +366,7 @@ class SpeechControlWidget extends StatelessWidget {
   }
 }
 
-class SessionOptionsWidget extends StatelessWidget {
+class SessionOptionsWidget extends Widget {
   const SessionOptionsWidget(
       this.currentLocaleId,
       this.switchLang,
@@ -451,6 +451,12 @@ class SessionOptionsWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  @override
+  Element createElement() {
+    // TODO: implement createElement
+    throw UnimplementedError();
   }
 }
 

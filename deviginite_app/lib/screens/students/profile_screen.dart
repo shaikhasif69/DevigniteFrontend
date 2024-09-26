@@ -21,7 +21,7 @@ class ProfileScreen extends StatelessWidget {
         leading: IconButton(
             onPressed: () => Get.back(),
             icon: const Icon(LineAwesomeIcons.angle_left)),
-        title: Text("tProfile", style: Theme.of(context).textTheme.headline4),
+        title: Text("tProfile", style: Theme.of(context).textTheme.bodyLarge),
         actions: [
           IconButton(
               onPressed: () {},
@@ -64,9 +64,9 @@ class ProfileScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text("tProfileHeading",
-                  style: Theme.of(context).textTheme.headline4),
+                  style: Theme.of(context).textTheme.bodyLarge),
               Text("tProfileSubHeading",
-                  style: Theme.of(context).textTheme.bodyText2),
+                  style: Theme.of(context).textTheme.bodyLarge),
               const SizedBox(height: 20),
 
               /// -- BUTTON
